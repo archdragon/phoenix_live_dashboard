@@ -1,2 +1,9 @@
-<%= live_render @socket, Phoenix.LiveDashboard.MenuLive, id: "menu", session: %{"menu" => @menu} %>
-<section role="main"><%= @inner_content %></section>
+<header class="mb-2 d-flex">
+  <div class="container d-flex flex-column">
+    <h1>Phoenix LiveDashboard</h1>
+    <%= live_render @socket, Phoenix.LiveDashboard.MenuLive, id: "menu", session: %{"menu" => @menu} %>
+  </div>
+</header>
+<section id="main" role="main" class="container">
+  <%= @inner_content %>
+</section>

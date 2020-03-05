@@ -23,7 +23,7 @@ defmodule Phoenix.LiveDashboard.IndexLive do
   @impl true
   def render(assigns) do
     ~L"""
-    <h1>Welcome to the LiveDashboard</h1>
+    <h1>Welcome to the LiveDashboard :d</h1>
 
     <ul>
       <li>

@@ -1,0 +1,29 @@
+body {
+  background-color: $gray-lighter;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+header {
+  background-color: $purple-darker;
+  height: 200px;
+
+  #menu {
+    margin-top: auto;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, .025), 0 15px 40px rgba(0, 0, 0,.2);
+    border-radius: $border-radius;
+    background-color: #fff;
+    display: inline-block;
+    position: relative;
+    bottom: -20px;
+    padding: 0.75rem 1.25rem;
+
+    a, span {
+      padding-right: 1.25rem;
+    }
+  }
+}
+
+#main {
+  padding-top: 20px;
+}

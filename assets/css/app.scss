@@ -1,4 +1,6 @@
-@import "./phoenix.css";
+@import "~bootstrap/scss/bootstrap";
+@import "./app/variables";
+@import "./app/layout";
 @import "../node_modules/nprogress/nprogress.css";
 
 /* LiveView specific classes for your customizations */

@@ -19,9 +19,10 @@ defmodule Phoenix.LiveDashboard.MenuLive do
   @impl true
   def render(assigns) do
     ~L"""
-    <%= live_redirect "Home", to: live_dashboard_path(@socket, :index, [@node]) %> |
+    <%= live_redirect "Home", to: live_dashboard_path(@socket, :index, [@node]) %>
     <%= maybe_live_redirect @socket, "Metrics", :metrics, @node %>
     <%= maybe_live_redirect @socket, "Request Logger", :request_logger, @node %>
+
     <form phx-change="select_node" style="display:inline">
       Node: <%= select :node_selector, :node, @nodes, value: @node %>
     </form>
@@ -31,8 +32,8 @@ defmodule Phoenix.LiveDashboard.MenuLive do
   defp maybe_live_redirect(socket, text, action, node) do
     cond do
       is_nil(socket.assigns.menu[action]) -> ""
-      socket.assigns.menu.action == action -> [text | " | "]
-      true -> [live_redirect(text, to: live_dashboard_path(socket, action, node)) | " | "]
+      socket.assigns.menu.action == action -> raw("<span>#{text}</span>")
+      true -> live_redirect(text, to: live_dashboard_path(socket, action, node))
     end
   end
 
