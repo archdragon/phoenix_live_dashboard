@@ -7760,20 +7760,32 @@ body {
 header {
   background-color: #241d33;
   height: 200px; }
-  header #menu {
+  header #menu-bar {
     margin-top: auto;
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.025), 0 15px 40px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.02), 0 7px 20px rgba(0, 0, 0, 0.065);
     border-radius: 6px;
     background-color: #fff;
     display: inline-block;
     position: relative;
-    bottom: -20px;
+    bottom: -1.5rem;
     padding: 0.75rem 1.25rem; }
-    header #menu a, header #menu span {
-      padding-right: 1.25rem; }
+    header #menu-bar a, header #menu-bar span {
+      padding-right: 1.5rem; }
+  header header .container {
+    position: relative; }
+  header #node-selection {
+    position: absolute;
+    top: 0;
+    right: 0; }
 
 #main {
-  padding-top: 20px; }
+  padding-top: 2rem; }
+
+.box-cell {
+  background-color: #fff;
+  border-radius: 6px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.02), 0 7px 20px rgba(0, 0, 0, 0.065);
+  padding: 1.25rem; }
 
 /* LiveView specific classes for your customizations */
 .phx-click-loading {

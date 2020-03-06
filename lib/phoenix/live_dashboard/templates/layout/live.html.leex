@@ -1,7 +1,9 @@
 <header class="mb-2 d-flex">
   <div class="container d-flex flex-column">
     <h1>Phoenix LiveDashboard</h1>
-    <%= live_render @socket, Phoenix.LiveDashboard.MenuLive, id: "menu", session: %{"menu" => @menu} %>
+    <nav id="menu-bar">
+      <%= live_render @socket, Phoenix.LiveDashboard.MenuLive, id: "menu", session: %{"menu" => @menu} %>
+    </nav>
   </div>
 </header>
 <section id="main" role="main" class="container">

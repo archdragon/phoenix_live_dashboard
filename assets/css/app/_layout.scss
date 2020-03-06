@@ -8,22 +8,39 @@ header {
   background-color: $purple-darker;
   height: 200px;
 
-  #menu {
+  #menu-bar {
     margin-top: auto;
-    box-shadow: 0 5px 10px rgba(0, 0, 0, .025), 0 15px 40px rgba(0, 0, 0,.2);
+    box-shadow: $box-shadow;
     border-radius: $border-radius;
     background-color: #fff;
     display: inline-block;
     position: relative;
-    bottom: -20px;
+    bottom: -1.5rem;
     padding: 0.75rem 1.25rem;
 
     a, span {
-      padding-right: 1.25rem;
+      padding-right: 1.5rem;
     }
+  }
+
+  header .container {
+    position: relative;
+  }
+
+  #node-selection {
+    position: absolute;
+    top: 0;
+    right: 0;
   }
 }
 
 #main {
-  padding-top: 20px;
+  padding-top: 2rem;
+}
+
+.box-cell {
+  background-color: #fff;
+  border-radius: $border-radius;
+  box-shadow: $box-shadow;
+  padding: 1.25rem;
 }
