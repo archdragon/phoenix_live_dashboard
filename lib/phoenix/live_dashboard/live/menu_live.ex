@@ -27,7 +27,17 @@ defmodule Phoenix.LiveDashboard.MenuLive do
     <%= maybe_enabled_live_redirect @socket, "Request Logger", :request_logger, @node %>
 
     <form id="node-selection" class="pt-4" phx-change="select_node" style="display:inline">
-      Node: <%= select :node_selector, :node, @nodes, value: @node %>
+      <label for="node_selector_node">
+        <div class="d-flex">
+          <div>
+            <div>Node:</div>
+            <div><%= @node %></div>
+          </div>
+
+          <div class="ml-2 rounded-circle node-name">X</div>
+        </div>
+        Node: <%= select :node_selector, :node, @nodes, value: @node %>
+      </label>
     </form>
 
     <%= if @menu.refresher? do %>

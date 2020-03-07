@@ -82,31 +82,32 @@ defmodule Phoenix.LiveDashboard.HomeLive do
       </div>
       <div class="col-sm-6">
 
-        <div class="card">
-          <div class="card-body">
             <h5 class="card-title">System usage / limits</h5>
 
             <%= for {title, section} <- [{"Atoms", :atoms}, {"Ports", :ports}, {"Processes", :processes}] do %>
-              <section class="pb-4 progress-section">
-                <div><%= title %></div>
+              <div class="card progress-section mb-4">
+                <div class="card-body">
+                  <section>
 
-                <div class="progress flex-grow-1 my-1">
-                  <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: <%= used(:atoms, @system_usage, @system_limits) %>%"></div>
-                </div>
+                    <div class="d-flex justify-content-between">
+                      <div>
+                        <div><%= title %></div>
+                        <div class="text-muted">
+                          <%= @system_usage[section] %> / <%= @system_limits[section] %>
+                        </div>
+                      </div>
+                      <div class="progress-section-percent align-self-center">
+                        <%= used(:atoms, @system_usage, @system_limits) %>%
+                      </div>
+                    </div>
 
-                <div class="d-flex justify-content-between">
-                  <div class="text-muted">
-                    <%= @system_usage[section] %> / <%= @system_limits[section] %>
-                  </div>
-                  <div>
-                    <%= used(:atoms, @system_usage, @system_limits) %>%
-                  </div>
+                    <div class="progress flex-grow-1 my-1">
+                      <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: <%= used(:atoms, @system_usage, @system_limits) %>%"></div>
+                    </div>
+                  </section>
                 </div>
-              </section>
+              </div>
             <% end %>
-
-          </div>
-        </div>
 
       </div>
     </div>

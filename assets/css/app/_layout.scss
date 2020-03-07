@@ -53,6 +53,16 @@ header {
     position: absolute;
     top: 0;
     right: 0;
+
+    .node-name {
+      background-color: red;
+      color: white;
+      font-size: 2rem;
+      line-height: 48px;
+      height: 48px;
+      width: 48px;
+      text-align: center;
+    }
   }
 }
 
