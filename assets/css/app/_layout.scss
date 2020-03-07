@@ -1,5 +1,14 @@
+html {
+  background-color: $gray;
+  background: linear-gradient(-15deg, $gray, lighten($gray, 5%));
+  background-size: cover;
+  background-repeat: repeat-x;
+  min-height: 100%;
+}
+
 body {
-  background-color: $gray-lighter;
+  background-color: transparent;
+  color: $text-color;
   font-size: 16px;
   line-height: 1.5;
 }
@@ -21,10 +30,18 @@ header {
     background-color: #fff;
     display: inline-block;
     margin-bottom: -1.5rem;
-    padding: 0.75rem 1.25rem;
+    padding: 0 0.75rem;
 
     a, span {
-      padding-right: 0.75rem;
+      display: inline-block;
+      padding: 0.75rem;
+
+      border: 2px solid transparent;
+      border-width: 2px 0 2px 0;
+
+      &:hover {
+        border-bottom: 2px solid red;
+      }
     }
   }
 
@@ -43,14 +60,55 @@ header {
   padding-top: 2.5rem;
 }
 
-.box-cell {
-  background-color: #fff;
+.section-title {
+  padding-bottom: 0.75rem;
+}
+
+.card {
   border-radius: $border-radius;
   box-shadow: $box-shadow;
-  padding: 1.25rem;
+  border: none;
+  /* padding: 1.25rem; */
 
+  /*
   h2 {
     font-size: 1.25rem;
     margin-bottom: 1.25rem;
+  }
+  */
+}
+
+.data-card {
+  border-radius: $border-radius;
+  box-shadow: $box-shadow;
+  color: white;
+  background-color: red;
+  padding: 0.75rem;
+}
+
+.data-card-title {
+  margin-bottom: 0.25rem;
+}
+
+.data-card-value {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.system-info-versions {
+  .col {
+    padding: 0 0.5rem;
+  }
+
+  .row {
+    margin: 0 -0.5rem;
+  }
+}
+
+.charts-col {
+  margin-bottom: 2rem;
+
+  .card {
+    padding: 0.5rem;
   }
 }

@@ -1,7 +1,11 @@
 @import "~bootstrap/scss/bootstrap";
+@import "../node_modules/nprogress/nprogress.css";
+
 @import "./app/variables";
 @import "./app/layout";
-@import "../node_modules/nprogress/nprogress.css";
+
+@import "./app/components/progress_section";
+
 
 /* LiveView specific classes for your customizations */
 .phx-click-loading {
@@ -19,17 +23,6 @@
 
 /* App metrics */
 .phx-dashboard-metrics-grid {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-items: center;
-  width: 100vw;
-  position: relative;
-  left: 50%;
-  right: 50%;
-  margin-left: -50vw;
-  margin-right: -50vw;
-  padding: 0rem 1rem;
 }
 
 .phx-dashboard-metrics-col {

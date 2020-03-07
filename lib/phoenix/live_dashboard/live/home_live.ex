@@ -39,59 +39,78 @@ defmodule Phoenix.LiveDashboard.HomeLive do
 
     <div class="row">
       <div class="col-sm-6">
+            <div class="row mb-4">
+              <div class="col">
+                <div class="data-card">
+                  <h6 class="data-card-title">Elixir</h6>
+                  <div class="data-card-value"><%= @system_info.elixir_version %></div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="data-card">
+                  <h6 class="data-card-title">Phoenix</h6>
+                  <div class="data-card-value"><%= @system_info.phoenix_version %></div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="data-card">
+                  <h6 class="data-card-title">Dashboard</h6>
+                  <div class="data-card-value"><%= @system_info.dashboard_version %></div>
+                </div>
+              </div>
+        </div>
 
-        <div class="box-cell">
-          <h2>System info</h2>
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">System info</h5>
 
-          <p><%= @system_info.banner %></p>
+            <p><%= @system_info.banner %></p>
 
-          <ul>
-            <li>Elixir version: <%= @system_info.elixir_version %></li>
-            <li>Phoenix version: <%= @system_info.phoenix_version %></li>
-            <li>Dashboard version: <%= @system_info.dashboard_version %></li>
-            <li>Compiled for: <%= @system_info.system_architecture %></li>
-          </ul>
+
+            <div class="row no-gutters">
+              <div class="col">
+                <div class="data-card">
+                  <h6 class="data-card-title">Compile for</h6>
+                  <div class="data-card-value"><%= @system_info.system_architecture %></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
         </div>
 
       </div>
       <div class="col-sm-6">
 
-        <div class="box-cell">
-          <h2>System usage / limits</h2>
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">System usage / limits</h5>
 
-          <section class="pb-4">
-            <div>
-              <strong>Atoms</strong>
-            </div>
+            <%= for {title, section} <- [{"Atoms", :atoms}, {"Ports", :ports}, {"Processes", :processes}] do %>
+              <section class="pb-4 progress-section">
+                <div><%= title %></div>
 
-            <div class="progress flex-grow-1 my-1">
-              <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: <%= used(:atoms, @system_usage, @system_limits) %>%"></div>
-            </div>
+                <div class="progress flex-grow-1 my-1">
+                  <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: <%= used(:atoms, @system_usage, @system_limits) %>%"></div>
+                </div>
 
-            <div class="d-flex justify-content-between">
-              <div>
-                <%= @system_usage.atoms %> / <%= @system_limits.atoms %>
-              </div>
-              <div>
-                <%= used(:atoms, @system_usage, @system_limits) %>% used
-              </div>
-            </div>
-          </section>
+                <div class="d-flex justify-content-between">
+                  <div class="text-muted">
+                    <%= @system_usage[section] %> / <%= @system_limits[section] %>
+                  </div>
+                  <div>
+                    <%= used(:atoms, @system_usage, @system_limits) %>%
+                  </div>
+                </div>
+              </section>
+            <% end %>
 
-          <strong>Ports</strong>
-          <div class="progress">
-            <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: <%= used(:atoms, @system_usage, @system_limits) %>%"></div>
           </div>
-
-          <ul>
-            <li>Atoms: <%= @system_usage.atoms %> / <%= @system_limits.atoms %> (<%= used(:atoms, @system_usage, @system_limits) %>% used)</li>
-            <li>Ports: <%= @system_usage.ports %> / <%= @system_limits.ports %> (<%= used(:ports, @system_usage, @system_limits) %>% used)</li>
-            <li>Processes: <%= @system_usage.processes %> / <%= @system_limits.processes %> (<%= used(:processes, @system_usage, @system_limits) %>% used)</li>
-          </ul>
         </div>
 
       </div>
     </div>
+
     """
   end
 
