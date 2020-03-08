@@ -35,27 +35,25 @@ defmodule Phoenix.LiveDashboard.HomeLive do
   @impl true
   def render(assigns) do
     ~L"""
-    <h2 class="section-title">Home thing</h2>
-
     <div class="row">
       <div class="col-sm-6">
         <h5 class="card-title">System information</h5>
 
         <div class="row mb-4">
               <div class="col">
-                <div class="data-card">
+                <div class="data-card background-elixir">
                   <h6 class="data-card-title">Elixir</h6>
                   <div class="data-card-value"><%= @system_info.elixir_version %></div>
                 </div>
               </div>
               <div class="col">
-                <div class="data-card">
+                <div class="data-card background-phoenix">
                   <h6 class="data-card-title">Phoenix</h6>
                   <div class="data-card-value"><%= @system_info.phoenix_version %></div>
                 </div>
               </div>
               <div class="col">
-                <div class="data-card">
+                <div class="data-card background-dashboard">
                   <h6 class="data-card-title">Dashboard</h6>
                   <div class="data-card-value"><%= @system_info.dashboard_version %></div>
                 </div>
@@ -82,12 +80,14 @@ defmodule Phoenix.LiveDashboard.HomeLive do
                     <div class="d-flex justify-content-between">
                       <div>
                         <div><%= title %></div>
-                        <div class="text-muted">
-                          <%= @system_usage[section] %> / <%= @system_limits[section] %>
-                        </div>
                       </div>
-                      <div class="progress-section-percent align-self-top text-muted">
-                        <%= used(:atoms, @system_usage, @system_limits) %>%
+                      <div>
+                        <small class="text-muted pr-2">
+                          <%= @system_usage[section] %> / <%= @system_limits[section] %>
+                        </small>
+                        <strong>
+                          <%= used(:atoms, @system_usage, @system_limits) %>%
+                        </strong>
                       </div>
                     </div>
 

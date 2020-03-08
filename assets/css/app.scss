@@ -1,10 +1,12 @@
 @import "./app/variables";
 @import "~bootstrap/scss/bootstrap";
-@import "../node_modules/nprogress/nprogress.css";
 
 @import "./app/layout";
+@import "./app/backgrounds";
 
 @import "./app/components/progress_section";
+
+@import "../node_modules/nprogress/nprogress.css";
 
 
 /* LiveView specific classes for your customizations */

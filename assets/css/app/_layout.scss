@@ -17,15 +17,16 @@ header {
   background-color: $purple-darker;
   // background: linear-gradient(to right, #F16529, #E44D26); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 
-  height: 200px;
+  height: 120px;
 
   h1 {
     color: #fff;
+    font-size: 1.75rem;
   }
 
   #menu-bar {
     margin-top: auto;
-    box-shadow: $box-shadow;
+    box-shadow: $box-shadow-lighter;
     border-radius: $border-radius;
     background-color: #fff;
     display: inline-block;
@@ -64,10 +65,21 @@ header {
       text-align: center;
     }
   }
+
+  #refresh-interval-selection {
+    position: absolute;
+    bottom: -4rem;
+    right: 0.5rem;
+  }
 }
 
-#main {
-  padding-top: 2.5rem;
+#title-section {
+  background-color: change-color($gray-lighter, $alpha: 0.75);
+  padding: 2.5rem 0 1rem;
+  margin-bottom: 1.5rem;
+  h1 {
+    font-size: 1.75rem;
+  }
 }
 
 .section-title {
@@ -93,7 +105,7 @@ header {
   box-shadow: $box-shadow;
   color: white;
   background-color: red;
-  padding: 0.75rem;
+  padding: 1rem;
 }
 
 .data-card-title {
@@ -103,6 +115,7 @@ header {
 .data-card-value {
   font-size: 1.5rem;
   font-weight: bold;
+  margin-bottom: -0.15rem;
 }
 
 .system-info-versions {

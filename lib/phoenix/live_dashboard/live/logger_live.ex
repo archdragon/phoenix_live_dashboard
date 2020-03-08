@@ -38,22 +38,26 @@ defmodule Phoenix.LiveDashboard.LoggerLive do
   @impl true
   def render(assigns) do
     ~L"""
-    <%= if @param_key do %>
-      <p>Access any page with this query parameter:<br />
-      <code>?<%= @param_key %>=<%= sign(@socket, @param_key, @stream) %></code></p>
-    <% end %>
+    <div class="card">
+      <div class="card-body">
+        <%= if @param_key do %>
+          <p>Access any page with this query parameter:<br />
+          <code>?<%= @param_key %>=<%= sign(@socket, @param_key, @stream) %></code></p>
+        <% end %>
 
-    <%= if @cookie_key do %>
-      <p>Click this upcoming magic button to set or unset cookie:<br />
-      <code><%= @cookie_key %>=<%= sign(@socket, @cookie_key, @stream) %></code></p>
-    <% end %>
+        <%= if @cookie_key do %>
+          <p>Click this upcoming magic button to set or unset cookie:<br />
+          <code><%= @cookie_key %>=<%= sign(@socket, @cookie_key, @stream) %></code></p>
+        <% end %>
 
-    <p><%= live_redirect "New stream", to: live_dashboard_path(@socket, :request_logger, @menu.node) %></p>
+        <p><%= live_redirect "New stream", to: live_dashboard_path(@socket, :request_logger, @menu.node) %></p>
 
-    <div id="logger-messages" phx-update="append">
-      <%= for message <- @messages do %>
-        <pre id="log-<%= System.unique_integer() %>"><%= message %></pre>
-      <% end %>
+        <div id="logger-messages" phx-update="append">
+          <%= for message <- @messages do %>
+            <pre id="log-<%= System.unique_integer() %>"><%= message %></pre>
+          <% end %>
+        </div>
+      </div>
     </div>
     """
   end

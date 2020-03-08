@@ -40,13 +40,15 @@ defmodule Phoenix.LiveDashboard.MenuLive do
       </label>
     </form>
 
-    <%= if @menu.refresher? do %>
-      <form phx-change="select_refresh" style="display:inline">
-        Update every: <%= select :refresh_selector, :refresh, refresh_options(), value: @refresh %>
-      </form>
-    <% else %>
-      Updates automatically
-    <% end %>
+    <div id="refresh-interval-selection">
+      <%= if @menu.refresher? do %>
+        <form phx-change="select_refresh" style="display:inline">
+          Update every: <%= select :refresh_selector, :refresh, refresh_options(), value: @refresh %>
+        </form>
+      <% else %>
+        Updates automatically
+      <% end %>
+    </div>
     """
   end
 
@@ -56,7 +58,7 @@ defmodule Phoenix.LiveDashboard.MenuLive do
 
   defp maybe_active_live_redirect(socket, text, action, node) do
     if socket.assigns.menu.action == action do
-      text
+      {:safe, "<span class='active'>#{text}</span>"}
     else
       live_redirect(text, to: live_dashboard_path(socket, action, node))
     end
