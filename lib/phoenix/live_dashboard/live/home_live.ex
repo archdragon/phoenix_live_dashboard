@@ -39,7 +39,9 @@ defmodule Phoenix.LiveDashboard.HomeLive do
 
     <div class="row">
       <div class="col-sm-6">
-            <div class="row mb-4">
+        <h5 class="card-title">System information</h5>
+
+        <div class="row mb-4">
               <div class="col">
                 <div class="data-card">
                   <h6 class="data-card-title">Elixir</h6>
@@ -62,21 +64,9 @@ defmodule Phoenix.LiveDashboard.HomeLive do
 
         <div class="card">
           <div class="card-body">
-            <h5 class="card-title">System info</h5>
-
             <p><%= @system_info.banner %></p>
-
-
-            <div class="row no-gutters">
-              <div class="col">
-                <div class="data-card">
-                  <h6 class="data-card-title">Compile for</h6>
-                  <div class="data-card-value"><%= @system_info.system_architecture %></div>
-                </div>
-              </div>
-            </div>
+            <p class="mb-0">Compile for: <%= @system_info.system_architecture %></p>
           </div>
-
         </div>
 
       </div>
@@ -96,12 +86,12 @@ defmodule Phoenix.LiveDashboard.HomeLive do
                           <%= @system_usage[section] %> / <%= @system_limits[section] %>
                         </div>
                       </div>
-                      <div class="progress-section-percent align-self-center">
+                      <div class="progress-section-percent align-self-top text-muted">
                         <%= used(:atoms, @system_usage, @system_limits) %>%
                       </div>
                     </div>
 
-                    <div class="progress flex-grow-1 my-1">
+                    <div class="progress flex-grow-1 mt-2">
                       <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: <%= used(:atoms, @system_usage, @system_limits) %>%"></div>
                     </div>
                   </section>
