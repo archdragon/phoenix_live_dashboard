@@ -7,6 +7,7 @@
   "repository": {},
   "scripts": {
     "build": "webpack --mode production",
+    "deploy": "webpack --mode production",
     "watch": "webpack --mode development --watch",
     "test": "jest",
     "test.coverage": "jest --coverage",
