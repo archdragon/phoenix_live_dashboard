@@ -5,6 +5,12 @@ defmodule Phoenix.LiveDashboard.HomeLive do
 
   @temporary_assigns [system_info: nil, system_usage: nil]
 
+  @system_limits_sections [
+    {:atoms, "Atoms"},
+    {:ports, "Ports"},
+    {:processes, "Processes"}
+  ]
+
   @impl true
   def mount(%{"node" => _} = params, session, socket) do
     socket = assign_defaults(socket, params, session, true)
@@ -72,7 +78,7 @@ defmodule Phoenix.LiveDashboard.HomeLive do
 
             <h5 class="card-title">System usage / limits</h5>
 
-            <%= for {title, section} <- [{"Atoms", :atoms}, {"Ports", :ports}, {"Processes", :processes}] do %>
+            <%= for {section, title} <- system_limits_sections() do %>
               <div class="card progress-section mb-4">
                 <div class="card-body">
                   <section>
@@ -117,4 +123,6 @@ defmodule Phoenix.LiveDashboard.HomeLive do
   def handle_info(:refresh, socket) do
     {:noreply, assign(socket, system_usage: SystemInfo.usage(socket.assigns.menu.node))}
   end
+
+  defp system_limits_sections(), do: @system_limits_sections
 end

@@ -26,8 +26,8 @@ defmodule Phoenix.LiveDashboard.LoggerLive do
   end
 
   @impl true
-  def handle_info({:logger, _level, message}, socket) do
-    {:noreply, assign(socket, messages: [message])}
+  def handle_info({:logger, level, message}, socket) do
+    {:noreply, assign(socket, messages: [{message, level}])}
   end
 
   def handle_info({:node_redirect, node}, socket) do
@@ -38,7 +38,23 @@ defmodule Phoenix.LiveDashboard.LoggerLive do
   @impl true
   def render(assigns) do
     ~L"""
-    <div class="card">
+    <%= if @messages != [] do %>
+      <h5 class="card-title">Logs</h5>
+
+      <div class="card mb-4">
+        <div class="card-body">
+          <div id="logger-messages" phx-update="append">
+            <%= for {message, level} <- @messages do %>
+              <pre id="log-<%= System.unique_integer() %>" class="log-level-<%= level %>"><%= message %></pre>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
+    <h5 class="card-title">Instructions</h5>
+
+    <div class="card mb-4">
       <div class="card-body">
         <%= if @param_key do %>
           <p>Access any page with this query parameter:<br />
@@ -52,11 +68,6 @@ defmodule Phoenix.LiveDashboard.LoggerLive do
 
         <p><%= live_redirect "New stream", to: live_dashboard_path(@socket, :request_logger, @menu.node) %></p>
 
-        <div id="logger-messages" phx-update="append">
-          <%= for message <- @messages do %>
-            <pre id="log-<%= System.unique_integer() %>"><%= message %></pre>
-          <% end %>
-        </div>
       </div>
     </div>
     """

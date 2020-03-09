@@ -26,28 +26,30 @@ defmodule Phoenix.LiveDashboard.MenuLive do
     <%= maybe_enabled_live_redirect @socket, "Metrics", :metrics, @node %>
     <%= maybe_enabled_live_redirect @socket, "Request Logger", :request_logger, @node %>
 
-    <form id="node-selection" class="pt-4" phx-change="select_node" style="display:inline">
-      <label for="node_selector_node">
-        <div class="d-flex">
-          <div>
-            <div>Node:</div>
-            <div><%= @node %></div>
-          </div>
-
-          <div class="ml-2 rounded-circle node-name">X</div>
+    <form id="node-selection" phx-change="select_node" style="display:inline">
+      <div class="input-group input-group-sm d-flex flex-column">
+        <div class="input-group-prepend">
+          <label class="input-group-text" for="node-select">Selected node:</label>
         </div>
-        Node: <%= select :node_selector, :node, @nodes, value: @node %>
-      </label>
+        <%= select :node_selector, :node, @nodes, value: @node, class: "custom-select", id: "node-select" %>
+      </div>
     </form>
 
     <div id="refresh-interval-selection">
-      <%= if @menu.refresher? do %>
-        <form phx-change="select_refresh" style="display:inline">
-          Update every: <%= select :refresh_selector, :refresh, refresh_options(), value: @refresh %>
-        </form>
-      <% else %>
-        Updates automatically
-      <% end %>
+      <form phx-change="select_refresh">
+        <div class="input-group input-group-sm">
+          <%= if @menu.refresher? do %>
+            <div class="input-group-prepend">
+              <label class="input-group-text" for="refresh-interval-select">Update every</label>
+            </div>
+            <%= select :refresh_selector, :refresh, refresh_options(), value: @refresh, class: "custom-select", id: "refresh-interval-select" %>
+          <% else %>
+            <div class="input-group-prepend">
+              <small class="input-group-text text-muted">Updates automatically</small>
+            </div>
+          <% end %>
+        </div>
+      </form>
     </div>
     """
   end
