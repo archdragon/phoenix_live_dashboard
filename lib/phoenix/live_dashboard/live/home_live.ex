@@ -66,7 +66,7 @@ defmodule Phoenix.LiveDashboard.HomeLive do
               </div>
         </div>
 
-        <div class="card">
+        <div class="card mb-4">
           <div class="card-body">
             <p><%= @system_info.banner %></p>
             <p class="mb-0">Compile for: <%= @system_info.system_architecture %></p>

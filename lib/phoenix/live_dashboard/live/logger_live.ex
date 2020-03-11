@@ -52,7 +52,7 @@ defmodule Phoenix.LiveDashboard.LoggerLive do
       </div>
     <% end %>
 
-    <h5 class="card-title">Instructions</h5>
+    <h5 class="card-title">Query Parameter</h5>
 
     <div class="card mb-4">
       <div class="card-body">
@@ -60,6 +60,13 @@ defmodule Phoenix.LiveDashboard.LoggerLive do
           <p>Access any page with this query parameter:<br />
           <code>?<%= @param_key %>=<%= sign(@socket, @param_key, @stream) %></code></p>
         <% end %>
+      </div>
+    </div>
+
+    <h5 class="card-title">Cookie Parameter</h5>
+
+    <div class="card mb-4">
+      <div class="card-body">
 
         <%= if @cookie_key do %>
           <p>Click this upcoming magic button to set or unset cookie:<br />

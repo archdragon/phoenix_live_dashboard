@@ -1,6 +1,9 @@
 <header class="d-flex">
   <div class="container d-flex flex-column">
-    <h1>Phoenix LiveDashboard</h1>
+    <h1>
+      <span class="header-title-part">Phoenix </span>
+      <span class="header-title-part">LiveDashboard<span>
+    </h1>
     <nav id="menu-bar">
       <%= live_render @socket, Phoenix.LiveDashboard.MenuLive, id: "menu", session: %{"menu" => @menu} %>
     </nav>
