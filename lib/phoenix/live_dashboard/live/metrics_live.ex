@@ -31,7 +31,7 @@ defmodule Phoenix.LiveDashboard.MetricsLive do
   @impl true
   def render(assigns) do
     ~L"""
-    <ul class="nav nav-pills mb-4">
+    <ul class="nav nav-pills mb-4 charts-nav">
       <%= for group <- @groups do %>
         <li class="nav-item">
           <%= live_redirect("#{inspect(group)} metrics",

@@ -55,6 +55,15 @@ $color-dashboard-800: shade-color($color-dashboard, 6);
 $primary: $color-dashboard;
 $color-header: #4a4473;
 
+// Grid
+$grid-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px
+) !default;
+
 // Bootstrap variables
 $text-muted: change-color($text-color, $alpha: 0.5);
 $grid-gutter-width: 24px;

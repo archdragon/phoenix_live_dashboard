@@ -14,11 +14,12 @@ body {
   line-height: 1.5;
 }
 
-#title-section {
-  background-color: change-color(#fff, $alpha: 0.75);
-  padding: 2.5rem 0 1rem;
-  margin-bottom: 1.5rem;
-  h1 {
-    font-size: 1.75rem;
+#main {
+  padding-top: 3.5rem;
+}
+
+@media (max-width: map-get($grid-breakpoints, lg)) {
+  #main {
+    padding-top: 5rem;
   }
 }
