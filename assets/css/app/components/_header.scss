@@ -1,0 +1,46 @@
+header {
+  background: $color-header;
+  // background: linear-gradient(to right, #F16529, #E44D26); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+  height: 120px;
+
+  h1 {
+    color: #fff;
+    font-size: 1.75rem;
+    margin-top: 2.25rem;
+  }
+
+  #menu-bar {
+    margin-top: auto;
+    box-shadow: $box-shadow-lighter;
+    border-radius: $border-radius;
+    background-color: #fff;
+    display: inline-block;
+    margin-bottom: -1.5rem;
+    padding: 0 0.75rem;
+
+    a, span {
+      display: inline-block;
+      padding: 0.75rem;
+
+      //border: 2px solid transparent;
+      //border-width: 2px 0 2px 0;
+
+      text-decoration: none;
+      color: change-color($primary, $alpha: 0.75);
+
+      &:hover {
+        color: $color-elixir-800;
+      }
+
+      &.active {
+        color: $color-elixir-800;
+        text-shadow: 1px 1px 5px change-color($primary, $alpha: 0.1);
+      }
+    }
+  }
+
+  .container {
+    position: relative;
+  }
+}

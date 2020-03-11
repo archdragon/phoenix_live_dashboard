@@ -2,39 +2,17 @@
 @import "~bootstrap/scss/bootstrap";
 
 @import "./app/layout";
-@import "./app/backgrounds";
 
+@import "./app/components/backgrounds";
+@import "./app/components/banner_card";
+@import "./app/components/card";
+@import "./app/components/charts";
+@import "./app/components/header";
+@import "./app/components/logger_messages";
+@import "./app/components/node_selection";
 @import "./app/components/progress_section";
+@import "./app/components/refresh_interval_selection";
+
+@import "./app/liveview";
 
 @import "../node_modules/nprogress/nprogress.css";
-
-
-/* LiveView specific classes for your customizations */
-.phx-click-loading {
-  opacity: 0.5;
-  transition: opacity 1s ease-out;
-}
-
-.phx-disconnected{
-  cursor: wait;
-}
-
-.phx-disconnected *{
-  pointer-events: none;
-}
-
-/* App metrics */
-.phx-dashboard-metrics-grid {
-}
-
-.phx-dashboard-metrics-col {
-  flex: 1;
-  flex-basis: 527px;
-  min-width: 0;
-}
-
-@media (min-width: 40.0rem) {
-  .phx-dashboard-metrics-col {
-    flex-basis: 327px;
-  }
-}

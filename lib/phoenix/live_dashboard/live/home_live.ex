@@ -45,23 +45,23 @@ defmodule Phoenix.LiveDashboard.HomeLive do
       <div class="col-sm-6">
         <h5 class="card-title">System information</h5>
 
-        <div class="row mb-4">
-              <div class="col">
-                <div class="data-card background-elixir">
-                  <h6 class="data-card-title">Elixir</h6>
-                  <div class="data-card-value"><%= @system_info.elixir_version %></div>
+        <div class="row">
+              <div class="col mb-4">
+                <div class="banner-card background-elixir">
+                  <h6 class="banner-card-title">Elixir</h6>
+                  <div class="banner-card-value"><%= @system_info.elixir_version %></div>
                 </div>
               </div>
-              <div class="col">
-                <div class="data-card background-phoenix">
-                  <h6 class="data-card-title">Phoenix</h6>
-                  <div class="data-card-value"><%= @system_info.phoenix_version %></div>
+              <div class="col mb-4">
+                <div class="banner-card background-phoenix">
+                  <h6 class="banner-card-title">Phoenix</h6>
+                  <div class="banner-card-value"><%= @system_info.phoenix_version %></div>
                 </div>
               </div>
-              <div class="col">
-                <div class="data-card background-dashboard">
-                  <h6 class="data-card-title">Dashboard</h6>
-                  <div class="data-card-value"><%= @system_info.dashboard_version %></div>
+              <div class="col mb-4">
+                <div class="banner-card background-dashboard">
+                  <h6 class="banner-card-title">Dashboard</h6>
+                  <div class="banner-card-value"><%= @system_info.dashboard_version %></div>
                 </div>
               </div>
         </div>

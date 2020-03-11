@@ -3,23 +3,13 @@
 # Configures the endpoint
 Application.put_env(:phoenix_live_dashboard, DemoWeb.Endpoint,
   http: [port: {:system, "PORT"}],
-  url: [scheme: "https", host: "dashboard-theme.herokuapp.com", port: 443],
+  url: [scheme: "https", host: "dashboard-theme.herokuapp.com", port: System.get_env("PORT")],
   force_ssl: [rewrite_on: [:x_forwarded_proto]],
   secret_key_base: "Hu4qQN3iKzTV4fJxhorPQlA/osH9fAMtbtjVS58PFgfw3ja5Z18Q/WSNR9wP4OfW",
   live_view: [signing_salt: "hMegieSe"],
-  http: [port: System.get_env("PORT") || 4000],
   debug_errors: true,
   check_origin: false,
-  pubsub: [name: Demo.PubSub, adapter: Phoenix.PubSub.PG2],
-  watchers: [
-    node: [
-      "node_modules/webpack/bin/webpack.js",
-      "--mode",
-      "production",
-      "--watch-stdin",
-      cd: "assets"
-    ]
-  ]
+  pubsub: [name: Demo.PubSub, adapter: Phoenix.PubSub.PG2]
 )
 
 defmodule DemoWeb.Telemetry do

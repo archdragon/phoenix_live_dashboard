@@ -1,0 +1,16 @@
+#refresh-interval-selection {
+  position: absolute;
+  bottom: -5rem;
+  right: 0.75rem;
+
+  .custom-select {
+    background-color: $gray;
+    border-radius: $border-radius;
+    border-width: 0;
+  }
+
+  .input-group-text {
+    border-width: 0;
+    background-color: transparent;
+  }
+}
