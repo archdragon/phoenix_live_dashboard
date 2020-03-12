@@ -45,14 +45,12 @@ header {
   }
 }
 
-@media (max-width: map-get($grid-breakpoints, lg)) {
+@media (max-width: map-get($grid-breakpoints, sm)) {
   header .header-title-part {
     display: block;
     font-size: 1rem;
   }
-}
 
-@media (max-width: map-get($grid-breakpoints, sm)) {
   header #menu-bar {
     padding: 0 0.5rem;
 
