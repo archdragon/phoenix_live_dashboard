@@ -10,7 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Muli:wght@200;400;500&display=swap" rel="stylesheet">
   </head>
   <body>
-  <%= render @view_module, @view_template, assigns %>
+    <%= @inner_content %>
   </body>
   <script><%= raw(render("app.js")) %></script>
 </html>

@@ -32,7 +32,8 @@ defmodule Phoenix.LiveDashboard.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:phoenix_live_view, "~> 0.8.0", github: "phoenixframework/phoenix_live_view"},
+      {:phoenix, "~> 1.4.15", github: "phoenixframework/phoenix", branch: "v1.4", override: true},
+      {:phoenix_live_view, "~> 0.9.0", phoenix_live_view_opts()},
       {:telemetry_metrics, "~> 0.4.0"},
       {:telemetry_poller, "~> 0.4.0", only: [:dev, :prod]},
       {:phoenix_live_reload, "~> 1.2", only: [:dev]},
@@ -41,6 +42,14 @@ defmodule Phoenix.LiveDashboard.MixProject do
       {:floki, "~> 0.24.0", only: :test},
       {:ex_doc, "~> 0.21", only: :docs}
     ]
+  end
+
+  defp phoenix_live_view_opts do
+    if path = System.get_env("LIVE_VIEW_PATH") do
+      [path: path]
+    else
+      [github: "phoenixframework/phoenix_live_view"]
+    end
   end
 
   defp docs do

@@ -12,6 +12,8 @@ LiveDashboard provides real-time performance monitoring and debugging tools for 
 
   * Request logging - See everything that was logged for certain requests
 
+The dashboard also works across nodes. If your nodes are connected via Distributed Erlang, then you can access information from node B while accessing the dashboard on node A.
+
 ## Installation
 
 To start using LiveDashboard, you will need three steps:
@@ -95,6 +97,10 @@ end
 ```
 
 <!-- MDOC !-->
+
+## Contributing
+
+For those planning to contribute to this project, you can run `iex -S mix run dev.exs` in the root of this project to start a Phoenix application that has the dashboard enabled with live code reloading.
 
 ## License
 

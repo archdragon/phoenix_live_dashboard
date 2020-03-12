@@ -37,8 +37,7 @@ defmodule Phoenix.LiveDashboard.Web do
     end
   end
 
-  @doc false
-  def view_helpers do
+  defp view_helpers do
     quote do
       # Use all HTML functionality (forms, tags, etc)
       use Phoenix.HTML
@@ -46,8 +45,15 @@ defmodule Phoenix.LiveDashboard.Web do
       # Import convenience functions for LiveView rendering
       import Phoenix.LiveView.Helpers
 
-      # Import routing functions
-      import Phoenix.LiveDashboard.Web
+      # Import dashboard built-in functions
+      import Phoenix.LiveDashboard.Web,
+        only: [
+          live_dashboard_path: 3,
+          live_dashboard_path: 4,
+          live_dashboard_path: 5,
+          assign_defaults: 3,
+          assign_defaults: 4
+        ]
     end
   end
 
