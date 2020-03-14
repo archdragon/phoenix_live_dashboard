@@ -51,6 +51,30 @@ defmodule DemoWeb.Telemetry do
   end
 end
 
+defmodule DemoWeb.PageController do
+  import Plug.Conn
+
+  def init(opts), do: opts
+
+  def call(conn, :index) do
+    content(conn, """
+    <h2>Phoenix LiveDashboard Dev</h2>
+    <a href="/dashboard" target="_blank">Open Dashboard</a>
+    """)
+  end
+
+  def call(conn, :hello) do
+    name = Map.get(conn.params, "name", "friend")
+    content(conn, "<p>Hello, #{name}!</p>")
+  end
+
+  defp content(conn, content) do
+    conn
+    |> put_resp_header("content-type", "text/html")
+    |> send_resp(200, "<!doctype html><html><body>#{content}</body></html>")
+  end
+end
+
 defmodule DemoWeb.Router do
   use Phoenix.Router
   import Phoenix.LiveDashboard.Router
@@ -62,6 +86,9 @@ defmodule DemoWeb.Router do
 
   scope "/" do
     pipe_through :browser
+    get "/", DemoWeb.PageController, :index
+    get "/hello", DemoWeb.PageController, :hello
+    get "/hello/:name", DemoWeb.PageController, :hello
     live_dashboard("/dashboard", metrics: DemoWeb.Telemetry)
   end
 end
