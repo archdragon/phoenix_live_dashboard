@@ -1,0 +1,13 @@
+.btn {
+  box-shadow: 0 3px -5px #ff0000;
+}
+
+.btn.btn-primary {
+  background: $color-button-primary;
+  border-width: 0;
+}
+
+.btn.btn-secondary {
+  background: $color-gray-warm-700;
+  border-width: 0;
+}

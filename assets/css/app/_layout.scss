@@ -1,7 +1,7 @@
 // Basic Layout and core styles
 html {
-  background-color: $gray;
-  background: linear-gradient(-15deg, $gray, lighten($gray, 5%));
+  background-color: $color-gray;
+  background: linear-gradient(-15deg, $color-gray, lighten($color-gray, 5%));
   background-size: cover;
   background-repeat: repeat-x;
   min-height: 100%;
@@ -20,6 +20,6 @@ body {
 
 @media (max-width: map-get($grid-breakpoints, lg)) {
   #main {
-    padding-top: 5rem;
+    padding-top: 6.5rem;
   }
 }

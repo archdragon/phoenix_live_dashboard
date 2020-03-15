@@ -1,0 +1,8 @@
+.badge-appearing {
+  transition: all 0.3s ease-out;
+  opacity: 0;
+
+  &[data-enabled="true"] {
+    opacity: 1;
+  }
+}
