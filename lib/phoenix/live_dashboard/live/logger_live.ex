@@ -15,7 +15,7 @@ defmodule Phoenix.LiveDashboard.LoggerLive do
     socket =
       socket
       |> assign_defaults(params, session)
-      |> assign(stream: stream, param_key: param_key, cookie_key: cookie_key)
+      |> assign(stream: stream, param_key: param_key, cookie_key: cookie_key, cookie_enabled: false)
 
     {:ok, socket, temporary_assigns: [messages: []]}
   end
@@ -36,6 +36,11 @@ defmodule Phoenix.LiveDashboard.LoggerLive do
   end
 
   @impl true
+  def handle_event("toggle_cookie", _params, socket) do
+    {:noreply, assign(socket, :cookie_enabled, !socket.assigns.cookie_enabled)}
+  end
+
+  @impl true
   def render(assigns) do
     ~L"""
     <%= if @messages != [] do %>
@@ -52,29 +57,49 @@ defmodule Phoenix.LiveDashboard.LoggerLive do
       </div>
     <% end %>
 
-    <h5 class="card-title">Query Parameter</h5>
+    <div class="row">
+      <div class="col-md-6">
+        <h5 class="card-title">Query Parameter</h5>
 
-    <div class="card mb-4">
-      <div class="card-body">
-        <%= if @param_key do %>
-          <p>Access any page with this query parameter:<br />
-          <code>?<%= @param_key %>=<%= sign(@socket, @param_key, @stream) %></code></p>
-        <% end %>
+        <div class="card mb-4">
+          <div class="card-body">
+            <%= if @param_key do %>
+              <p>Access any page with this query parameter:<br />
+              <code>?<%= @param_key %>=<%= sign(@socket, @param_key, @stream) %></code></p>
+            <% end %>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+
+        <h5 class="card-title">Cookie Parameter</h5>
+
+        <div class="card mb-4">
+          <div class="card-body">
+
+            <%= if @cookie_key do %>
+              <p>Click this upcoming magic button to set or unset cookie:<br />
+
+              <div phx-hook="PhxRequestLoggerCookie" id="request-logger-cookie-buttons"
+                data-cookie-key=<%=@cookie_key %>
+                data-cookie-value=<%=sign(@socket, @cookie_key, @stream) %>
+                data-cookie-enabled="<%= @cookie_enabled %>">
+
+                <%= if @cookie_enabled do %>
+                  <button phx-click="toggle_cookie" class="btn btn-secondary">Disable cookie</button>
+                <% else %>
+                  <button phx-click="toggle_cookie" class="btn btn-success">Enable cookie</button>
+                <% end %>
+              </div>
+            <% end %>
+          </div>
+        </div>
       </div>
     </div>
 
-    <h5 class="card-title">Cookie Parameter</h5>
-
-    <div class="card mb-4">
-      <div class="card-body">
-
-        <%= if @cookie_key do %>
-          <p>Click this upcoming magic button to set or unset cookie:<br />
-          <code><%= @cookie_key %>=<%= sign(@socket, @cookie_key, @stream) %></code></p>
-        <% end %>
-
-        <p><%= live_redirect "New stream", to: live_dashboard_path(@socket, :request_logger, @menu.node) %></p>
-
+    <div class="row">
+      <div class="col text-center">
+        <%= live_redirect "New stream", to: live_dashboard_path(@socket, :request_logger, @menu.node) %>
       </div>
     </div>
     """
