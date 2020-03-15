@@ -36,8 +36,14 @@ defmodule Phoenix.LiveDashboard.LoggerLive do
   end
 
   @impl true
+  def handle_event("toggle_cookie", %{"enable" => "true"}, socket) do
+    IO.inspect("enable true")
+    {:noreply, assign(socket, :cookie_enabled, true)}
+  end
+
   def handle_event("toggle_cookie", _params, socket) do
-    {:noreply, assign(socket, :cookie_enabled, !socket.assigns.cookie_enabled)}
+    IO.inspect("enable false")
+    {:noreply, assign(socket, :cookie_enabled, false)}
   end
 
   @impl true
@@ -88,7 +94,7 @@ defmodule Phoenix.LiveDashboard.LoggerLive do
                 <%= if @cookie_enabled do %>
                   <button phx-click="toggle_cookie" class="btn btn-secondary">Disable cookie</button>
                 <% else %>
-                  <button phx-click="toggle_cookie" class="btn btn-success">Enable cookie</button>
+                  <button phx-click="toggle_cookie" phx-value-enable="true" class="btn btn-success">Enable cookie</button>
                 <% end %>
               </div>
             <% end %>
