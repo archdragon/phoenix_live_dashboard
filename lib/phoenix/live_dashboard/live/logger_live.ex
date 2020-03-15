@@ -37,12 +37,10 @@ defmodule Phoenix.LiveDashboard.LoggerLive do
 
   @impl true
   def handle_event("toggle_cookie", %{"enable" => "true"}, socket) do
-    IO.inspect("enable true")
     {:noreply, assign(socket, :cookie_enabled, true)}
   end
 
   def handle_event("toggle_cookie", _params, socket) do
-    IO.inspect("enable false")
     {:noreply, assign(socket, :cookie_enabled, false)}
   end
 
@@ -65,14 +63,14 @@ defmodule Phoenix.LiveDashboard.LoggerLive do
 
     <div class="row">
       <%= if @param_key do %>
-        <div class="col-md-6">
+        <div class="col-md-6" phx-hook="PhxRequestLoggerQueryParameter">
           <h5 class="card-title">Query Parameter</h5>
 
           <div class="card mb-4">
             <div class="card-body">
               <p>Access any page with this query parameter:</p>
 
-              <textarea class="code-field text-monospace" readonly="readonly">?<%= @param_key %>=<%= sign(@socket, @param_key, @stream) %></textarea>
+              <textarea rows="1" class="code-field text-monospace" readonly="readonly">?<%= @param_key %>=<%= sign(@socket, @param_key, @stream) %></textarea>
 
               <button class="btn btn-primary float-right">Copy to clipboard</button>
             </div>
@@ -82,27 +80,32 @@ defmodule Phoenix.LiveDashboard.LoggerLive do
 
       <%= if @cookie_key do %>
         <div class="col-md-6">
-          <h5 class="card-title">
-            Cookie Parameter
-
-            <span class="badge badge-primary badge-appearing" data-enabled="<%= @cookie_enabled %>">enabled</span>
-          </h5>
+          <h5 class="card-title">Cookie Parameter</h5>
 
           <div class="card mb-4">
             <div class="card-body">
-              <p>Create a logger cookie to automatically track incoming requests.</p>
+              <p>Create a logger cookie to automatically log requests for the current browser session.</p>
 
-              <div phx-hook="PhxRequestLoggerCookie" id="request-logger-cookie-buttons"
-                data-cookie-key=<%=@cookie_key %>
-                data-cookie-value=<%=sign(@socket, @cookie_key, @stream) %>
-                data-cookie-enabled="<%= @cookie_enabled %>">
+              <div class="row">
+                <div class="col">
+                  <span class="cookie-status" data-enabled="<%= @cookie_enabled %>">Cookie enabled</span>
+                </div>
 
-                <%= if @cookie_enabled do %>
-                  <button phx-click="toggle_cookie" phx-value-enable="false" class="btn btn-secondary float-right">Disable cookie</button>
-                <% else %>
-                  <button phx-click="toggle_cookie" phx-value-enable="true" class="btn btn-primary float-right">Enable cookie</button>
-                <% end %>
+                <div class="col">
+                  <div phx-hook="PhxRequestLoggerCookie" id="request-logger-cookie-buttons"
+                    data-cookie-key=<%=@cookie_key %>
+                    data-cookie-value=<%=sign(@socket, @cookie_key, @stream) %>
+                    data-cookie-enabled="<%= @cookie_enabled %>">
+
+                    <%= if @cookie_enabled do %>
+                      <button phx-click="toggle_cookie" phx-value-enable="false" class="btn btn-secondary float-right">Disable cookie</button>
+                    <% else %>
+                      <button phx-click="toggle_cookie" phx-value-enable="true" class="btn btn-primary float-right">Enable cookie</button>
+                    <% end %>
+                  </div>
+                </div>
               </div>
+
             </div>
           </div>
         </div>

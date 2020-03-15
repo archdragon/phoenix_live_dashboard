@@ -18,13 +18,13 @@ header {
     display: inline-block;
     margin-bottom: -1.5rem;
     padding: 0 0.75rem;
+  }
 
-    a, span {
+  #menu {
+    .menu-item {
       display: inline-block;
       padding: 0.75rem;
-
-      //border: 2px solid transparent;
-      //border-width: 2px 0 2px 0;
+      position: relative;
 
       text-decoration: none;
       color: change-color($primary, $alpha: 0.75);
@@ -36,6 +36,31 @@ header {
       &.active {
         color: $color-elixir-800;
         text-shadow: 1px 1px 5px change-color($primary, $alpha: 0.1);
+      }
+    }
+
+    .menu-item-disabled {
+      color: $text-muted;
+
+      &:hover {
+        color: $text-muted;
+      }
+    }
+
+    .menu-item-enable-button {
+      background-color: $color-button-primary;
+      border-radius: 3px;
+      color: $color-gray-warm-100;
+      position: absolute;
+      font-size: 0.75rem;
+      right: 50%;
+      bottom: -15px;
+      padding: 0.15rem 0.5rem;
+      transform: translateX(50%);
+
+      &:hover {
+        background-color: lighten($color-button-primary, 5%);
+        text-decoration: none;
       }
     }
   }
@@ -54,7 +79,10 @@ header {
   header #menu-bar {
     padding: 0 0.5rem;
 
-    a, span {
+  }
+
+  #menu {
+    .menu-item {
       padding: 0.75rem 0.5rem;
     }
   }

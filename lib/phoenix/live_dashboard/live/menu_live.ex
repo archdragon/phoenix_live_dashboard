@@ -57,9 +57,11 @@ defmodule Phoenix.LiveDashboard.MenuLive do
 
   defp maybe_active_live_redirect(socket, text, action, node) do
     if socket.assigns.menu.action == action do
-      {:safe, "<span class='active'>#{text}</span>"}
+      ~E"""
+      <div class='menu-item active'><%= text %></div>
+      """
     else
-      live_redirect(text, to: live_dashboard_path(socket, action, node))
+      live_redirect(text, to: live_dashboard_path(socket, action, node), class: "menu-item")
     end
   end
 
@@ -68,7 +70,9 @@ defmodule Phoenix.LiveDashboard.MenuLive do
       maybe_active_live_redirect(socket, text, action, node)
     else
       ~E"""
-      <%= text %> (<%= link "enable", to: guide(action) %>)
+      <div class="menu-item menu-item-disabled">
+        <%= text %> <%= link "Enable", to: guide(action), class: "menu-item-enable-button" %>
+      </div>
       """
     end
   end

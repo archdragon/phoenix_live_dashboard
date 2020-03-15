@@ -5,10 +5,12 @@ import NProgress from "nprogress"
 import { LiveSocket } from "phoenix_live_view"
 import PhxChartComponent from "./metrics_live"
 import PhxRequestLoggerCookie from "./request_logger_cookie"
+import PhxRequestLoggerQueryParameter from "./request_logger_query_parameter"
 
 let Hooks = {
   PhxChartComponent: PhxChartComponent,
-  PhxRequestLoggerCookie: PhxRequestLoggerCookie
+  PhxRequestLoggerCookie: PhxRequestLoggerCookie,
+  PhxRequestLoggerQueryParameter: PhxRequestLoggerQueryParameter
 }
 
 let socketPath = document.querySelector("html").getAttribute("phx-socket") || "/live"
