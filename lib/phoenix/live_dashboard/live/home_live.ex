@@ -46,24 +46,24 @@ defmodule Phoenix.LiveDashboard.HomeLive do
         <h5 class="card-title">System information</h5>
 
         <div class="row">
-              <div class="col mb-4">
-                <div class="banner-card background-elixir">
-                  <h6 class="banner-card-title">Elixir</h6>
-                  <div class="banner-card-value"><%= @system_info.elixir_version %></div>
-                </div>
-              </div>
-              <div class="col mb-4">
-                <div class="banner-card background-phoenix">
-                  <h6 class="banner-card-title">Phoenix</h6>
-                  <div class="banner-card-value"><%= @system_info.phoenix_version %></div>
-                </div>
-              </div>
-              <div class="col mb-4">
-                <div class="banner-card background-dashboard">
-                  <h6 class="banner-card-title">Dashboard</h6>
-                  <div class="banner-card-value"><%= @system_info.dashboard_version %></div>
-                </div>
-              </div>
+          <div class="col mb-4">
+            <div class="banner-card background-elixir">
+              <h6 class="banner-card-title">Elixir</h6>
+              <div class="banner-card-value"><%= @system_info.elixir_version %></div>
+            </div>
+          </div>
+          <div class="col mb-4">
+            <div class="banner-card background-phoenix">
+              <h6 class="banner-card-title">Phoenix</h6>
+              <div class="banner-card-value"><%= @system_info.phoenix_version %></div>
+            </div>
+          </div>
+          <div class="col mb-4">
+            <div class="banner-card background-dashboard">
+              <h6 class="banner-card-title">Dashboard</h6>
+              <div class="banner-card-value"><%= @system_info.dashboard_version %></div>
+            </div>
+          </div>
         </div>
 
         <div class="card mb-4">
@@ -75,35 +75,34 @@ defmodule Phoenix.LiveDashboard.HomeLive do
 
       </div>
       <div class="col-sm-6">
+        <h5 class="card-title">System usage / limits</h5>
 
-            <h5 class="card-title">System usage / limits</h5>
+        <%= for {section, title} <- system_limits_sections() do %>
+          <div class="card progress-section mb-4">
+            <div class="card-body">
+              <section>
 
-            <%= for {section, title} <- system_limits_sections() do %>
-              <div class="card progress-section mb-4">
-                <div class="card-body">
-                  <section>
-
-                    <div class="d-flex justify-content-between">
-                      <div>
-                        <div><%= title %></div>
-                      </div>
-                      <div>
-                        <small class="text-muted pr-2">
-                          <%= @system_usage[section] %> / <%= @system_limits[section] %>
-                        </small>
-                        <strong>
-                          <%= used(:atoms, @system_usage, @system_limits) %>%
-                        </strong>
-                      </div>
-                    </div>
-
-                    <div class="progress flex-grow-1 mt-2">
-                      <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: <%= used(:atoms, @system_usage, @system_limits) %>%"></div>
-                    </div>
-                  </section>
+                <div class="d-flex justify-content-between">
+                  <div>
+                    <%= title %>
+                  </div>
+                  <div>
+                    <small class="text-muted pr-2">
+                      <%= @system_usage[section] %> / <%= @system_limits[section] %>
+                    </small>
+                    <strong>
+                      <%= used(:atoms, @system_usage, @system_limits) %>%
+                    </strong>
+                  </div>
                 </div>
-              </div>
-            <% end %>
+
+                <div class="progress flex-grow-1 mt-2">
+                  <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: <%= used(:atoms, @system_usage, @system_limits) %>%"></div>
+                </div>
+              </section>
+            </div>
+          </div>
+        <% end %>
 
       </div>
     </div>

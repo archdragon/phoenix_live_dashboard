@@ -1,11 +1,10 @@
 header {
   background: $color-header;
-  // background: linear-gradient(to right, #F16529, #E44D26); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-
   height: 120px;
 
   h1 {
-    color: #fff;
+    text-shadow: 2px 2px 0 change-color($color-shadow-dark, $alpha: 0.5);
+    color: $color-gray-200;
     font-size: 1.75rem;
     margin-top: 2.25rem;
   }
@@ -35,7 +34,7 @@ header {
 
       &.active {
         color: $color-elixir-800;
-        text-shadow: 1px 1px 5px change-color($primary, $alpha: 0.1);
+        text-shadow: 1px 1px change-color($primary, $alpha: 0.1);
       }
     }
 
@@ -73,7 +72,12 @@ header {
 @media (max-width: map-get($grid-breakpoints, sm)) {
   header .header-title-part {
     display: block;
-    font-size: 1rem;
+    font-size: 1.25rem;
+    padding: 0.1rem 0;
+  }
+
+  header h1 {
+    margin-top: 1.25rem;
   }
 
   header #menu-bar {

@@ -13,13 +13,17 @@ const copyToClipboard = (textarea) => {
     }
   }
 
-const PhxRequestLoggerQueryParameters = {
+const PhxRequestLoggerQueryParameter = {
   mounted() {
     this.el.querySelector('.btn-primary').addEventListener('click', e => {
       const textarea = this.el.querySelector('textarea')
       copyToClipboard(textarea)
+      const copyIndicator = this.el.querySelector('.copy-indicator')
+      copyIndicator.setAttribute('data-enabled', 'false')
+      void copyIndicator.offsetWidth // Resets the animation to ensure it will be played again
+      copyIndicator.setAttribute('data-enabled', 'true')
     })
   }
 }
 
-export default PhxRequestLoggerQueryParameters
+export default PhxRequestLoggerQueryParameter
