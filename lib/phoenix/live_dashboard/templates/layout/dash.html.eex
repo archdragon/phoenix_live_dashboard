@@ -7,7 +7,6 @@
     <%= csrf_meta_tag() %>
     <title><%= assigns[:page_title] || "Phoenix LiveDashboard" %></title>
     <style><%= raw(render("app.css")) %></style>
-    <link href="https://fonts.googleapis.com/css2?family=Muli:wght@200;400;500&display=swap" rel="stylesheet">
   </head>
   <body>
     <%= @inner_content %>

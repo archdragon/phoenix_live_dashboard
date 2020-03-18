@@ -7,10 +7,16 @@
   padding: 0.5rem 0.75rem;
   white-space: nowrap;
   width: 100%;
+  resize: none;
   overflow: auto;
   margin-bottom: 0.75rem;
+  scrollbar-width: none;
 
   &:focus {
     outline: none;
+  }
+
+  &::-webkit-scrollbar {
+    display: none;
   }
 }

@@ -11,6 +11,12 @@ defmodule Phoenix.LiveDashboard.HomeLive do
     {:processes, "Processes"}
   ]
 
+  @versions_sections [
+    {:elixir, "Elixir"},
+    {:phoenix, "Phoenix"},
+    {:dashboard, "Dashboard"}
+  ]
+
   @impl true
   def mount(%{"node" => _} = params, session, socket) do
     socket = assign_defaults(socket, params, session, true)
@@ -42,28 +48,20 @@ defmodule Phoenix.LiveDashboard.HomeLive do
   def render(assigns) do
     ~L"""
     <div class="row">
+      <!-- Left column with system/version information -->
       <div class="col-sm-6">
         <h5 class="card-title">System information</h5>
 
+        <!-- Row with colorful version banners -->
         <div class="row">
-          <div class="col mb-4">
-            <div class="banner-card background-elixir">
-              <h6 class="banner-card-title">Elixir</h6>
-              <div class="banner-card-value"><%= @system_info.elixir_version %></div>
+          <%= for {section, title} <- versions_sections() do %>
+            <div class="col mb-4">
+              <div class="banner-card background-<%= section %>">
+                <h6 class="banner-card-title"><%= title %></h6>
+                <div class="banner-card-value"><%= @system_info[:"#{section}_version"] %></div>
+              </div>
             </div>
-          </div>
-          <div class="col mb-4">
-            <div class="banner-card background-phoenix">
-              <h6 class="banner-card-title">Phoenix</h6>
-              <div class="banner-card-value"><%= @system_info.phoenix_version %></div>
-            </div>
-          </div>
-          <div class="col mb-4">
-            <div class="banner-card background-dashboard">
-              <h6 class="banner-card-title">Dashboard</h6>
-              <div class="banner-card-value"><%= @system_info.dashboard_version %></div>
-            </div>
-          </div>
+          <% end %>
         </div>
 
         <div class="card mb-4">
@@ -72,8 +70,9 @@ defmodule Phoenix.LiveDashboard.HomeLive do
             <p class="mb-0">Compile for: <%= @system_info.system_architecture %></p>
           </div>
         </div>
-
       </div>
+
+      <!-- Right column containing system usage information -->
       <div class="col-sm-6">
         <h5 class="card-title">System usage / limits</h5>
 
@@ -124,4 +123,6 @@ defmodule Phoenix.LiveDashboard.HomeLive do
   end
 
   defp system_limits_sections(), do: @system_limits_sections
+
+  defp versions_sections(), do: @versions_sections
 end

@@ -78,11 +78,9 @@ defmodule Phoenix.LiveDashboard.LoggerLive do
 
           <div class="card mb-4 flex-grow-1">
             <div class="card-body d-flex flex-column">
-              <div class="flex-grow-1">
-                <p>Access any page with this query parameter:</p>
+              <p>Access any page with this query parameter:</p>
 
-                <textarea rows="1" class="code-field text-monospace flex-grow-0" readonly="readonly">?<%= @param_key %>=<%= sign(@socket, @param_key, @stream) %></textarea>
-              </div>
+              <textarea rows="1" class="code-field text-monospace" readonly="readonly">?<%= @param_key %>=<%= sign(@socket, @param_key, @stream) %></textarea>
 
               <div class="row flex-grow-0">
                 <div class="col">
@@ -153,7 +151,7 @@ defmodule Phoenix.LiveDashboard.LoggerLive do
 
     ~E"""
       <!-- Autoscroll ON/OFF checkbox -->
-      <div id="logger-autoscroll" class="text-right">
+      <div id="logger-autoscroll" class="text-right mt-3">
         Autoscroll <input phx-click="toggle_autoscroll" <%= checked_param %> class="logger-autoscroll-checkbox" type="checkbox">
       </div>
     """

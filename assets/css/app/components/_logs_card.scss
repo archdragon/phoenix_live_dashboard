@@ -13,7 +13,7 @@
       font-size: 0.75rem;
 
       &:hover {
-        background-color: $color-gray-warm-100;
+        background-color: change-color($color-gray-warm-100, $alpha: 0.5);
       }
 
       &.log-level-debug {
@@ -22,6 +22,6 @@
     }
 
     overflow-y: scroll;
-    max-height: 350px;
+    height: 350px;
   }
 }
