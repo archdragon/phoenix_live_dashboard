@@ -1,11 +1,50 @@
+// Charts page layout
 .charts-col {
   margin-bottom: 2rem;
 
   .card {
     padding: 0.5rem;
+
+    .uplot {
+      font-family: 'LiveDashboardFont';
+      max-width: 100%;
+
+      &.summary {
+        .legend {
+          tr:nth-child(n+3) {
+            display: table-row;
+          }
+        }
+      }
+
+      .title {
+        font-weight: 900;
+      }
+
+      .legend {
+        font-size: 0.75rem;
+      }
+    }
   }
 }
 
 .charts-nav {
+  border-bottom: 1px solid change-color($color-gray-600, $alpha: 0.7);
   margin-top: -0.5rem;
+
+  .nav-link {
+    opacity: 0.7;
+    &:hover {
+      border-bottom-color: change-color($color-gray-600, $alpha: 0.7);
+      opacity: 1;
+    }
+  }
+
+  .nav-link.active {
+    background-color: transparent;
+    border-color: change-color($color-gray-600, $alpha: 0.7);
+    border-bottom-color: $color-gray-300;
+    color: $color-elixir-800;
+    opacity: 1;
+  }
 }

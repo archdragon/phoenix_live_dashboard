@@ -1,16 +1,16 @@
+// Node selection dropdown
 #node-selection {
   position: absolute;
-  top: 0;
-  right: 0;
+  top: -4.5rem;
+  right: -0.75rem;
   padding-right: 0.75rem;
   padding-top: 0.75rem;
 
   .custom-select {
-    //background: transparent url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='5'%3E%3Cpath fill='%23ffffff' d='M2 0L0 2h4zm0 5L0 3h4z'/%3E%3C/svg%3E") no-repeat right .75rem center/8px 10px;
     background-color: change-color($color-gray, $alpha: 0.75);
     border-radius: $border-radius;
     border-width: 0;
-    color: #000;
+    color: black;
   }
 
   .input-group-text {

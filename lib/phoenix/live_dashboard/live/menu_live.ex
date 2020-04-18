@@ -19,27 +19,34 @@ defmodule Phoenix.LiveDashboard.MenuLive do
   @impl true
   def render(assigns) do
     ~L"""
-    <%= maybe_active_live_redirect @socket, "Home", :home, @node %>
-    <%= maybe_enabled_live_redirect @socket, "Metrics", :metrics, @node %>
-    <%= maybe_enabled_live_redirect @socket, "Request Logger", :request_logger, @node %>
+    <nav id="menu-bar">
+      <%= maybe_active_live_redirect @socket, @menu, "Home", :home, @node %>
+      <%= maybe_enabled_live_redirect @socket, @menu, "Metrics", :metrics, @node %>
+      <%= maybe_enabled_live_redirect @socket, @menu, "Request Logger", :request_logger, @node %>
+      <%= maybe_active_live_redirect @socket, @menu, "Processes", :processes, @node %>
+    </nav>
 
-    <form id="node-selection" phx-change="select_node" style="display:inline">
+    <form id="node-selection" phx-change="select_node" class="d-inline">
       <div class="input-group input-group-sm d-flex flex-column">
         <div class="input-group-prepend">
           <label class="input-group-text" for="node-select">Selected node:</label>
         </div>
-        <%= select :node_selector, :node, @nodes, value: @node, class: "custom-select", id: "node-select" %>
+        <select name="node" class="custom-select" id="node-select">
+          <%= options_for_select(@nodes, @node) %>
+        </select>
       </div>
     </form>
 
-    <div id="refresh-interval-selection">
+    <div id="refresher">
       <form phx-change="select_refresh">
         <div class="input-group input-group-sm">
           <%= if @menu.refresher? do %>
             <div class="input-group-prepend">
               <label class="input-group-text" for="refresh-interval-select">Update every</label>
             </div>
-            <%= select :refresh_selector, :refresh, refresh_options(), value: @refresh, class: "custom-select", id: "refresh-interval-select" %>
+            <select name="refresh" class="custom-select" id="refresh-interval-select">
+              <%= options_for_select(refresh_options(), @refresh) %>
+            </select>
           <% else %>
             <div class="input-group-prepend">
               <small class="input-group-text text-muted">Updates automatically</small>
@@ -55,8 +62,8 @@ defmodule Phoenix.LiveDashboard.MenuLive do
     @supported_refresh
   end
 
-  defp maybe_active_live_redirect(socket, text, action, node) do
-    if socket.assigns.menu.action == action do
+  defp maybe_active_live_redirect(socket, menu, text, action, node) do
+    if menu.action == action do
       ~E"""
       <div class='menu-item active'><%= text %></div>
       """
@@ -65,9 +72,9 @@ defmodule Phoenix.LiveDashboard.MenuLive do
     end
   end
 
-  defp maybe_enabled_live_redirect(socket, text, action, node) do
-    if socket.assigns.menu[action] do
-      maybe_active_live_redirect(socket, text, action, node)
+  defp maybe_enabled_live_redirect(socket, menu, text, action, node) do
+    if menu[action] do
+      maybe_active_live_redirect(socket, menu, text, action, node)
     else
       ~E"""
       <div class="menu-item menu-item-disabled">
@@ -95,7 +102,7 @@ defmodule Phoenix.LiveDashboard.MenuLive do
 
   @impl true
   def handle_event("select_node", params, socket) do
-    param_node = params["node_selector"]["node"]
+    param_node = params["node"]
     node = Enum.find(nodes(), &(Atom.to_string(&1) == param_node))
 
     if node && node != socket.assigns.node do
@@ -107,7 +114,7 @@ defmodule Phoenix.LiveDashboard.MenuLive do
   end
 
   def handle_event("select_refresh", params, socket) do
-    case Integer.parse(params["refresh_selector"]["refresh"]) do
+    case Integer.parse(params["refresh"]) do
       {refresh, ""} -> {:noreply, assign(socket, refresh: refresh)}
       _ -> {:noreply, socket}
     end

@@ -32,4 +32,3 @@ const PhxRequestLoggerCookie = {
 }
 
 export default PhxRequestLoggerCookie
-

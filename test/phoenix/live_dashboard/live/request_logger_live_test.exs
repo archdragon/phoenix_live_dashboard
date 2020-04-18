@@ -1,4 +1,4 @@
-defmodule Phoenix.LiveDashboard.LoggerLiveTest do
+defmodule Phoenix.LiveDashboard.RequestLoggerLiveTest do
   use ExUnit.Case, async: true
 
   require Logger
@@ -9,7 +9,7 @@ defmodule Phoenix.LiveDashboard.LoggerLiveTest do
   @endpoint Phoenix.LiveDashboardTest.Endpoint
 
   test "redirects to stream" do
-    {:error, %{redirect: %{to: "/dashboard/nonode%40nohost/request_logger/" <> _}}} =
+    {:error, {:live_redirect, %{to: "/dashboard/nonode%40nohost/request_logger/" <> _}}} =
       live(build_conn(), "/dashboard/nonode@nohost/request_logger")
   end
 
@@ -20,6 +20,7 @@ defmodule Phoenix.LiveDashboard.LoggerLiveTest do
     assert render(live) =~ "Enable cookie"
 
     Logger.error("hello world", logger_pubsub_backend: {PubSub, RequestLogger.topic("sample")})
+    Logger.flush()
 
     # Guarantees the message above has been processed
     _ = render(live)

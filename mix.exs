@@ -1,7 +1,7 @@
 defmodule Phoenix.LiveDashboard.MixProject do
   use Mix.Project
 
-  @version "0.1.0"
+  @version "0.1.1"
 
   def project do
     [
@@ -12,9 +12,10 @@ defmodule Phoenix.LiveDashboard.MixProject do
       elixirc_paths: elixirc_paths(Mix.env()),
       deps: deps(),
       package: package(),
+      name: "LiveDashboard",
       docs: docs(),
       homepage_url: "http://www.phoenixframework.org",
-      description: "Real-time performance monitor and tracer for Phoenix"
+      description: "Real-time performance dashboard for Phoenix"
     ]
   end
 
@@ -32,12 +33,13 @@ defmodule Phoenix.LiveDashboard.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:phoenix_live_view, "~> 0.9.0", phoenix_live_view_opts()},
+      {:phoenix_live_view, "~> 0.12.0", phoenix_live_view_opts()},
       {:telemetry_metrics, "~> 0.4.0"},
-      {:telemetry_poller, "~> 0.4", only: [:dev, :prod]},
-      {:phoenix_live_reload, "~> 1.2", only: [:dev]},
-      {:plug_cowboy, "~> 2.0", only: [:dev, :prod]},
-      {:jason, "~> 1.0"},
+      {:phoenix_html, "~> 2.14.1 or ~> 2.15"},
+      {:telemetry_poller, "~> 0.4", only: :dev},
+      {:phoenix_live_reload, "~> 1.2", only: :dev},
+      {:plug_cowboy, "~> 2.0", only: :dev},
+      {:jason, "~> 1.0", only: [:dev, :test, :docs]},
       {:floki, "~> 0.24.0", only: :test},
       {:ex_doc, "~> 0.21", only: :docs}
     ]
@@ -47,7 +49,7 @@ defmodule Phoenix.LiveDashboard.MixProject do
     if path = System.get_env("LIVE_VIEW_PATH") do
       [path: path]
     else
-      [github: "phoenixframework/phoenix_live_view"]
+      []
     end
   end
 
@@ -74,9 +76,7 @@ defmodule Phoenix.LiveDashboard.MixProject do
       maintainers: ["Michael Crumm", "Chris McCord", "José Valim"],
       licenses: ["MIT"],
       links: %{github: "https://github.com/phoenixframework/phoenix_live_dashboard"},
-      files:
-        ~w(assets/css assets/js lib priv) ++
-          ~w(CHANGELOG.md LICENSE.md mix.exs package.json README.md)
+      files: ~w(lib priv CHANGELOG.md LICENSE.md mix.exs README.md)
     ]
   end
 end

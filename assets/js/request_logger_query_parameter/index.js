@@ -2,7 +2,7 @@
 
 const copyToClipboard = (textarea) => {
     if (!navigator.clipboard){
-      // Depracated clipboard API
+      // Deprecated clipboard API
       textarea.select()
       textarea.setSelectionRange(0, 99999)
       document.execCommand('copy')

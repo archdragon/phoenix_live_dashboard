@@ -19,7 +19,7 @@ In your `mix.exs`, add the following to your `deps`:
   {:telemetry_metrics, "~> 0.4"},
 ```
 
-If you are generated your Phoenix app in version v1.5+, these dependencies will already be installed. You can also skip the next section.
+If you generated your Phoenix app in version v1.5+, these dependencies will already be installed. You can also skip the next section.
 
 ### Define your telemetry module
 
@@ -52,14 +52,8 @@ defmodule MyAppWeb.Telemetry do
       summary("phoenix.endpoint.stop.duration",
         unit: {:native, :millisecond}
       ),
-      summary("phoenix.endpoint.stop.duration",
-        tags: [:method, :request_path],
-        tag_values: &tag_method_and_request_path/1,
-        unit: {:native, :millisecond}
-      ),
       summary("phoenix.router_dispatch.stop.duration",
-        tags: [:controller_action],
-        tag_values: &tag_controller_action/1,
+        tags: [:route],
         unit: {:native, :millisecond}
       ),
 
@@ -80,20 +74,6 @@ defmodule MyAppWeb.Telemetry do
 
   defp periodic_measurements do
     []
-  end
-
-  # Extracts labels like "GET /"
-  defp tag_method_and_request_path(metadata) do
-    Map.take(metadata.conn, [:method, :request_path])
-  end
-
-  # Extracts controller#action from route dispatch
-  defp tag_controller_action(%{plug: plug, plug_opts: plug_opts}) when is_atom(plug_opts) do
-    %{controller_action: "#{inspect(plug)}##{plug_opts}"}
-  end
-
-  defp tag_controller_action(%{plug: plug}) do
-    %{controller_action: inspect(plug)}
   end
 end
 ```
@@ -123,7 +103,7 @@ Now refresh the "/dashboard" page and the metrics functionality should be enable
 
 ## More about telemetry
 
-Now that you have metrics up andd running, you can begin exploring the rest of the telemetry ecosystem! Here are a few links to get you started:
+Now that you have metrics up and running, you can begin exploring the rest of the telemetry ecosystem! Here are a few links to get you started:
 
 * The [`Telemetry.Metrics`](https://hexdocs.pm/telemetry_metrics)
   module documentation contains more information on:
@@ -140,18 +120,17 @@ Now that you have metrics up andd running, you can begin exploring the rest of t
 
 ## Configure Metrics
 
-The LiveDashboard integrates with `:telemetry` converting each  `Telemetry.Metrics` to a beatiful, real-time chart.
+The LiveDashboard integrates with `:telemetry` converting each  `Telemetry.Metrics` to a beautiful, real-time chart.
 
 The following table shows how `Telemetry.Metrics` metrics map to LiveDashboard charts:
 
-| Telemetry.Metrics | Chart |
-|-------------------|-------|
-| `last_value`      | `Doughnut`, always set to an absolute value |
-| `counter`         | `Doughnut`, always increased by 1 |
-| `summary`         | `Line`, recording individual measurement using time scale |
-| `distribution`    | (Coming Soon) `Line`, recording measurement in individual buckets using time scale |
-
-Those are hardcoded and not configurable at the moment.
+| Telemetry.Metrics | Y-Axis Value(s)                                            |
+|-------------------|----------------------------------------------------------- |
+| `last_value`      | Always set to an absolute value                            |
+| `counter`         | Always increased by 1                                      |
+| `sum`             | Always increased/decreased by an absolute value            |
+| `summary`         | Value/Min/Max/Avg                                          |
+| `distribution`    | (Coming Soon) recording measurements in individual buckets |
 
 ### Reporter options
 

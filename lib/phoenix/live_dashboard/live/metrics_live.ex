@@ -10,6 +10,7 @@ defmodule Phoenix.LiveDashboard.MetricsLive do
 
     group = params["group"]
     metrics = metrics_per_group[group]
+    {first_group, _} = Enum.at(metrics_per_group, 0, {nil, nil})
 
     socket =
       socket
@@ -24,6 +25,10 @@ defmodule Phoenix.LiveDashboard.MetricsLive do
         Phoenix.LiveDashboard.TelemetryListener.listen(socket.assigns.menu.node, metrics)
         {:ok, assign(socket, metrics: Enum.with_index(metrics))}
 
+      first_group && is_nil(group) ->
+        {:ok,
+         push_redirect(socket, to: live_dashboard_path(socket, :metrics, node(), [first_group]))}
+
       true ->
         {:ok, assign(socket, metrics: nil)}
     end
@@ -33,13 +38,16 @@ defmodule Phoenix.LiveDashboard.MetricsLive do
     to_string(metric.reporter_options[:group] || hd(metric.name))
   end
 
+  defp format_group_name("vm"), do: "VM"
+  defp format_group_name(group), do: Phoenix.Naming.camelize(group)
+
   @impl true
   def render(assigns) do
     ~L"""
-    <ul class="nav nav-pills mb-4 charts-nav">
+    <ul class="nav nav-tabs mb-4 charts-nav">
       <%= for group <- @groups do %>
         <li class="nav-item">
-          <%= live_redirect("#{inspect(group)} metrics",
+          <%= live_redirect(format_group_name(group),
                 to: live_dashboard_path(@socket, :metrics, @menu.node, [group]),
                 class: "nav-link #{if @group == group, do: "active"}") %>
         </li>
@@ -59,7 +67,7 @@ defmodule Phoenix.LiveDashboard.MetricsLive do
   @impl true
   def handle_info({:telemetry, entries}, socket) do
     for {id, label, measurement, time} <- entries do
-      data = [{label, measurement, DateTime.from_unix!(time, :millisecond)}]
+      data = [{label, measurement, time}]
       send_update(ChartComponent, id: id, data: data)
     end
 
