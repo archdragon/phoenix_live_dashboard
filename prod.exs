@@ -18,17 +18,25 @@ defmodule DemoWeb.Telemetry do
   def metrics do
     [
       # Phoenix Metrics
-      summary("phoenix.endpoint.stop.duration",
+      last_value("phoenix.endpoint.stop.duration",
+        unit: {:native, :millisecond}
+      ),
+      counter("phoenix.endpoint.stop.duration",
         unit: {:native, :millisecond}
       ),
       summary("phoenix.endpoint.stop.duration",
-        tags: [:method, :request_path],
-        tag_values: &tag_method_and_request_path/1,
+        unit: {:native, :microsecond}
+      ),
+      last_value("phoenix.router_dispatch.stop.duration",
+        tags: [:route],
+        unit: {:native, :millisecond}
+      ),
+      counter("phoenix.router_dispatch.stop.duration",
+        tags: [:route],
         unit: {:native, :millisecond}
       ),
       summary("phoenix.router_dispatch.stop.duration",
-        tags: [:controller_action],
-        tag_values: &tag_controller_action/1,
+        tags: [:route],
         unit: {:native, :millisecond}
       ),
 
@@ -39,19 +47,29 @@ defmodule DemoWeb.Telemetry do
       summary("vm.total_run_queue_lengths.io")
     ]
   end
+end
 
-  # Extracts labels like "GET /"
-  defp tag_method_and_request_path(metadata) do
-    Map.take(metadata.conn, [:method, :request_path])
+defmodule DemoWeb.PageController do
+  import Plug.Conn
+
+  def init(opts), do: opts
+
+  def call(conn, :index) do
+    content(conn, """
+    <h2>Phoenix LiveDashboard Dev</h2>
+    <a href="/dashboard" target="_blank">Open Dashboard</a>
+    """)
   end
 
-  # Extracts controller#action from route dispatch
-  defp tag_controller_action(%{plug: plug, plug_opts: plug_opts}) when is_atom(plug_opts) do
-    %{controller_action: "#{inspect(plug)}##{plug_opts}"}
+  def call(conn, :hello) do
+    name = Map.get(conn.params, "name", "friend")
+    content(conn, "<p>Hello, #{name}!</p>")
   end
 
-  defp tag_controller_action(%{plug: plug}) do
-    %{controller_action: inspect(plug)}
+  defp content(conn, content) do
+    conn
+    |> put_resp_header("content-type", "text/html")
+    |> send_resp(200, "<!doctype html><html><body>#{content}</body></html>")
   end
 end
 
@@ -60,10 +78,16 @@ defmodule DemoWeb.Router do
   import Phoenix.LiveDashboard.Router
 
   pipeline :browser do
-    plug :fetch_flash
+    plug :fetch_session
   end
 
-  live_dashboard "/dashboard", metrics: DemoWeb.Telemetry
+  scope "/" do
+    pipe_through :browser
+    get "/", DemoWeb.PageController, :index
+    get "/hello", DemoWeb.PageController, :hello
+    get "/hello/:name", DemoWeb.PageController, :hello
+    live_dashboard("/dashboard", metrics: DemoWeb.Telemetry)
+  end
 end
 
 defmodule DemoWeb.Endpoint do
