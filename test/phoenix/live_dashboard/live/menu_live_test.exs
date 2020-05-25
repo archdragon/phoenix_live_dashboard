@@ -10,10 +10,12 @@ defmodule Phoenix.LiveDashboard.MenuLiveTest do
     menu =
       Enum.into(menu, %{
         refresher?: false,
-        action: :home,
+        page: :home,
         node: node(),
         metrics: nil,
-        request_logger: nil
+        request_logger: nil,
+        dashboard_running?: true,
+        info: nil
       })
 
     live_isolated(build_conn(), MenuLive,
@@ -52,18 +54,30 @@ defmodule Phoenix.LiveDashboard.MenuLiveTest do
     end
 
     test "when home is active" do
-      {:ok, live, _} = menu_live(action: :home)
+      {:ok, live, _} = menu_live(page: :home)
       assert render(live) =~ ~s|<div class="menu-item active">Home</div>|
     end
 
     test "when metrics is active" do
-      {:ok, live, _} = menu_live(action: :metrics, metrics: {Foo.Bar, :baz})
+      {:ok, live, _} = menu_live(page: :metrics, metrics: {Foo.Bar, :baz})
       assert render(live) =~ ~s|<div class="menu-item active">Metrics</div>|
     end
 
     test "when request logger is active" do
-      {:ok, live, _} = menu_live(action: :request_logger, request_logger: {"key1", "key2"})
+      {:ok, live, _} = menu_live(page: :request_logger, request_logger: {"key1", "key2"})
       assert render(live) =~ ~s|<div class="menu-item active">Request Logger</div>|
+    end
+
+    test "when processes is active" do
+      {:ok, live, _} = menu_live(page: :processes)
+      assert render(live) =~ ~s|<div class="menu-item active">Processes</div>|
+      assert render(live) =~ ~r"<a[^>]+>Home</a>"
+    end
+
+    test "when no live dashboard detected" do
+      {:ok, live, _} = menu_live(dashboard_running?: false)
+      refute render(live) =~ ~s|<div class="menu-item">Metrics</div>|
+      refute render(live) =~ ~s|<div class="menu-item">Request Logger</div>|
     end
   end
 end

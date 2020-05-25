@@ -7,11 +7,11 @@ defmodule Phoenix.LiveDashboard.HomeLiveTest do
 
   test "redirects when host is missing" do
     conn = get(build_conn(), "/dashboard")
-    assert redirected_to(conn) == "/dashboard/nonode%40nohost"
+    assert redirected_to(conn) == "/dashboard/nonode%40nohost/home"
   end
 
   test "shows system information" do
-    {:ok, live, _} = live(build_conn(), "/dashboard/nonode@nohost")
+    {:ok, live, _} = live(build_conn(), "/dashboard/nonode@nohost/home")
     rendered = render(live)
     assert rendered =~ "Update every"
     assert rendered =~ to_string(:erlang.system_info(:system_version))
@@ -25,25 +25,21 @@ defmodule Phoenix.LiveDashboard.HomeLiveTest do
   end
 
   test "redirects to new node" do
-    {:ok, live, _} = live(build_conn(), "/dashboard/nonode@nohost")
+    {:ok, live, _} = live(build_conn(), "/dashboard/nonode@nohost/home")
     send(live.pid, {:node_redirect, "foo@bar"})
-    assert_redirect(live, "/dashboard/foo%40bar")
+    assert_redirect(live, "/dashboard/foo%40bar/home")
   end
 
   test "shows memory usage information" do
-    {:ok, live, _} = live(build_conn(), "/dashboard/nonode@nohost")
+    {:ok, live, _} = live(build_conn(), "/dashboard/nonode@nohost/home")
     rendered = render(live)
 
-    assert rendered =~ ~r|<span>Atoms</span><span class="[a-z0-9- ]+">\s+\d+.\d+ \w+\s+</span>|
-    assert rendered =~ ~r|<span>Binary</span><span class="[a-z0-9- ]+">\s+\d+.\d+ \w+\s+</span>|
-    assert rendered =~ ~r|<span>Code</span><span class="[a-z0-9- ]+">\s+\d+.\d+ \w+\s+</span>|
-    assert rendered =~ ~r|<span>ETS</span><span class="[a-z0-9- ]+">\s+\d+.\d+ \w+\s+</span>|
-
-    assert rendered =~
-             ~r|<span>Processes</span><span class="[a-z0-9- ]+">\s+\d+.\d+ \w+\s+</span>|
-
-    assert rendered =~ ~r|<span>Other</span><span class="[a-z0-9- ]+">\s+\d+.\d+ \w+\s+</span>|
-
+    assert rendered =~ ~r|<span>Atoms </span>|
+    assert rendered =~ ~r|<span>Binary </span>|
+    assert rendered =~ ~r|<span>Code </span>|
+    assert rendered =~ ~r|<span>ETS </span>|
+    assert rendered =~ ~r|<span>Processes </span>|
+    assert rendered =~ ~r|<span>Other </span>|
     assert rendered =~ ~r|Total usage: \d+.\d+|
   end
 end

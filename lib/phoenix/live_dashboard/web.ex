@@ -18,10 +18,7 @@ defmodule Phoenix.LiveDashboard.Web do
   def live_view do
     quote do
       @moduledoc false
-
-      use Phoenix.LiveView,
-        layout: {Phoenix.LiveDashboard.LayoutView, "live.html"}
-
+      use Phoenix.LiveView, layout: {Phoenix.LiveDashboard.LayoutView, "live.html"}
       unquote(view_helpers())
     end
   end
@@ -30,9 +27,7 @@ defmodule Phoenix.LiveDashboard.Web do
   def live_component do
     quote do
       @moduledoc false
-
       use Phoenix.LiveComponent
-
       unquote(view_helpers())
     end
   end
@@ -46,7 +41,7 @@ defmodule Phoenix.LiveDashboard.Web do
       import Phoenix.LiveView.Helpers
 
       # Import dashboard built-in functions
-      import Phoenix.LiveDashboard.Helpers
+      import Phoenix.LiveDashboard.LiveHelpers
     end
   end
 

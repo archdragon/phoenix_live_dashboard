@@ -14,7 +14,7 @@ defmodule Phoenix.LiveDashboard.RequestLoggerLive do
 
     socket =
       socket
-      |> assign_defaults(params, session)
+      |> assign_mount(:request_logger, params, session)
       |> assign(
         stream: stream,
         param_key: param_key,
@@ -24,12 +24,26 @@ defmodule Phoenix.LiveDashboard.RequestLoggerLive do
         messages_present: false
       )
 
-    {:ok, socket, temporary_assigns: [messages: []]}
+    if socket.assigns.menu.request_logger do
+      {:ok, socket, temporary_assigns: [messages: []]}
+    else
+      {:ok,
+       push_redirect(socket, to: live_dashboard_path(socket, :home, socket.assigns.menu.node))}
+    end
   end
 
   def mount(%{"node" => node}, %{"request_logger" => _}, socket) do
     stream = :crypto.strong_rand_bytes(3) |> Base.url_encode64()
-    {:ok, push_redirect(socket, to: live_dashboard_path(socket, :request_logger, node, [stream]))}
+
+    {:ok,
+     push_redirect(socket,
+       to: live_dashboard_path(socket, :request_logger, node, stream: stream)
+     )}
+  end
+
+  @impl true
+  def handle_params(params, _url, socket) do
+    {:noreply, assign_params(socket, params)}
   end
 
   @impl true
@@ -38,7 +52,7 @@ defmodule Phoenix.LiveDashboard.RequestLoggerLive do
   end
 
   def handle_info({:node_redirect, node}, socket) do
-    to = live_dashboard_path(socket, :request_logger, node, [socket.assigns.stream])
+    to = live_dashboard_path(socket, :request_logger, node, stream: socket.assigns.stream)
     {:noreply, push_redirect(socket, to: to)}
   end
 
@@ -155,12 +169,13 @@ defmodule Phoenix.LiveDashboard.RequestLoggerLive do
 
   defp autoscroll_checkbox(autoscroll_enabled) do
     checked_param = if autoscroll_enabled, do: "checked='checked'", else: ""
+    assigns = %{checked_param: checked_param}
 
-    ~E"""
-      <!-- Autoscroll ON/OFF checkbox -->
-      <div id="logger-autoscroll" class="text-right mt-3">
-        <label>Autoscroll <input phx-click="toggle_autoscroll" <%= checked_param %> class="logger-autoscroll-checkbox" type="checkbox"></label>
-      </div>
+    ~L"""
+    <!-- Autoscroll ON/OFF checkbox -->
+    <div id="logger-autoscroll" class="text-right mt-3">
+      <label>Autoscroll <input phx-click="toggle_autoscroll" <%= @checked_param %> class="logger-autoscroll-checkbox" type="checkbox"></label>
+    </div>
     """
   end
 end

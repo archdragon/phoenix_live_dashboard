@@ -21,9 +21,16 @@ defmodule Phoenix.LiveDashboard.MenuLive do
     ~L"""
     <nav id="menu-bar">
       <%= maybe_active_live_redirect @socket, @menu, "Home", :home, @node %>
-      <%= maybe_enabled_live_redirect @socket, @menu, "Metrics", :metrics, @node %>
-      <%= maybe_enabled_live_redirect @socket, @menu, "Request Logger", :request_logger, @node %>
+      <%= maybe_enabled_live_redirect @socket, @menu, "OS Data", :os_mon, @node %>
+      <%= if @menu.dashboard_running? do %>
+        <%= maybe_enabled_live_redirect @socket, @menu, "Metrics", :metrics, @node %>
+        <%= maybe_enabled_live_redirect @socket, @menu, "Request Logger", :request_logger, @node %>
+      <% end %>
+      <%= maybe_active_live_redirect @socket, @menu, "Applications", :applications, @node %>
       <%= maybe_active_live_redirect @socket, @menu, "Processes", :processes, @node %>
+      <%= maybe_active_live_redirect @socket, @menu, "Ports", :ports, @node %>
+      <%= maybe_active_live_redirect @socket, @menu, "Sockets", :sockets, @node %>
+      <%= maybe_active_live_redirect @socket, @menu, "ETS", :ets, @node %>
     </nav>
 
     <form id="node-selection" phx-change="select_node" class="d-inline">
@@ -62,23 +69,23 @@ defmodule Phoenix.LiveDashboard.MenuLive do
     @supported_refresh
   end
 
-  defp maybe_active_live_redirect(socket, menu, text, action, node) do
-    if menu.action == action do
-      ~E"""
-      <div class='menu-item active'><%= text %></div>
-      """
+  defp maybe_active_live_redirect(socket, menu, text, page, node) do
+    if menu.page == page do
+      content_tag(:div, text, class: "menu-item active")
     else
-      live_redirect(text, to: live_dashboard_path(socket, action, node), class: "menu-item")
+      live_redirect(text, to: live_dashboard_path(socket, page, node), class: "menu-item")
     end
   end
 
-  defp maybe_enabled_live_redirect(socket, menu, text, action, node) do
-    if menu[action] do
-      maybe_active_live_redirect(socket, menu, text, action, node)
+  defp maybe_enabled_live_redirect(socket, menu, text, page, node) do
+    if menu[page] do
+      maybe_active_live_redirect(socket, menu, text, page, node)
     else
-      ~E"""
+      assigns = %{page: page, text: text}
+
+      ~L"""
       <div class="menu-item menu-item-disabled">
-        <%= text %> <%= link "Enable", to: guide(action), class: "menu-item-enable-button" %>
+        <%= @text %> <%= link "Enable", to: guide(@page), class: "menu-item-enable-button" %>
       </div>
       """
     end
@@ -135,8 +142,6 @@ defmodule Phoenix.LiveDashboard.MenuLive do
   end
 
   ## Node helpers
-
-  defp nodes(), do: [node() | Node.list()]
 
   defp validate_nodes_or_redirect(socket) do
     if socket.assigns.node not in nodes() do
